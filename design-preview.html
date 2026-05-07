@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1200">
+  <title>Design System Preview — Paperwork Second Brain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ── TOKENS ─────────────────────────────────── */
+    :root {
+      --bg:           #F7F6F3;
+      --surface:      #FAF9F6;
+      --header:       #1A1A1A;
+      --text:         #1A1A1A;
+      --text-muted:   #6B6560;
+      --border:       #E5E1D8;
+      --border-strong:#CCC8BF;
+      --amber:        #D97706;
+      --amber-bg:     #FFFBEB;
+      --green:        #15803D;
+      --green-bg:     #DCFCE7;
+      --error:        #DC2626;
+      --error-bg:     #FEF2F2;
+      --info:         #1D4ED8;
+      --info-bg:      #EFF6FF;
+    }
+    [data-theme="dark"] {
+      --bg:           #1C1917;
+      --surface:      #292524;
+      --header:       #111110;
+      --text:         #F7F6F3;
+      --text-muted:   #A8A29E;
+      --border:       #3C3836;
+      --border-strong:#57534E;
+      --amber:        #F59E0B;
+      --amber-bg:     rgba(245,158,11,0.12);
+      --green:        #22C55E;
+      --green-bg:     rgba(34,197,94,0.12);
+      --error:        #F87171;
+      --error-bg:     rgba(248,113,113,0.12);
+      --info:         #60A5FA;
+      --info-bg:      rgba(96,165,250,0.12);
+    }
+
+    /* ── RESET ──────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    /* ── LAYOUT ─────────────────────────────────── */
+    .preview-header {
+      background: var(--header);
+      padding: 0 64px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .preview-header-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(247,246,243,0.5);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .preview-header-title span { color: var(--amber); }
+    .theme-toggle {
+      background: rgba(247,246,243,0.1);
+      border: 1px solid rgba(247,246,243,0.15);
+      border-radius: 4px;
+      color: rgba(247,246,243,0.7);
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Barlow', sans-serif;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .theme-toggle:hover { background: rgba(247,246,243,0.18); color: var(--bg); }
+
+    .page { max-width: 1120px; margin: 0 auto; padding: 64px; }
+
+    .section { margin-bottom: 72px; }
+    .section-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── TYPOGRAPHY SPECIMEN ────────────────────── */
+    .type-specimens { display: flex; flex-direction: column; gap: 20px; }
+    .type-row {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 24px;
+      align-items: baseline;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .type-row:last-child { border-bottom: none; }
+    .type-meta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .type-meta strong { color: var(--amber); font-weight: 500; }
+    .specimen-xl {
+      font-family: 'Barlow', sans-serif;
+      font-size: 28px; font-weight: 700;
+      letter-spacing: -0.03em; line-height: 1.1;
+    }
+    .specimen-lg {
+      font-family: 'Barlow', sans-serif;
+      font-size: 22px; font-weight: 700;
+      letter-spacing: -0.02em; line-height: 1.2;
+    }
+    .specimen-table-header {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .specimen-body { font-size: 14px; line-height: 1.6; }
+    .specimen-muted { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+    .specimen-mono {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px; font-weight: 500;
+    }
+    .specimen-mono-sm {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px; color: var(--text-muted);
+    }
+    .specimen-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+    }
+
+    /* ── COLOR PALETTE ──────────────────────────── */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    .swatch {
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .swatch-color { height: 64px; }
+    .swatch-info {
+      padding: 10px 12px;
+      background: var(--surface);
+    }
+    .swatch-name {
+      font-size: 12px; font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .swatch-hex {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; color: var(--text-muted);
+    }
+
+    /* ── COMPONENTS ─────────────────────────────── */
+    .component-grid { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+    .btn {
+      font-family: 'Barlow', sans-serif;
+      font-size: 14px; font-weight: 600;
+      border-radius: 4px;
+      padding: 9px 20px;
+      cursor: pointer;
+      border: none;
+      letter-spacing: 0.01em;
+    }
+    .btn-primary { background: var(--text); color: var(--bg); }
+    .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border-strong); }
+    .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-danger { background: var(--error); color: #FFF; }
+
+    .chip {
+      display: inline-flex; align-items: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 3px;
+    }
+    .chip-green { background: var(--green-bg); color: var(--green); }
+    .chip-amber { background: var(--amber-bg); color: var(--amber); }
+    .chip-error { background: var(--error-bg); color: var(--error); }
+    .chip-muted { background: var(--border); color: var(--text-muted); }
+
+    .input-demo {
+      padding: 9px 14px;
+      border: 1px solid var(--border-strong);
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: 'Barlow', sans-serif;
+      background: var(--surface);
+      color: var(--text);
+      width: 260px;
+    }
+    .input-demo::placeholder { color: var(--text-muted); }
+    .input-demo.error { border-color: var(--error); }
+
+    .alert {
+      padding: 12px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      margin-top: 12px;
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .alert-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+    .alert-text { flex: 1; }
+    .alert-title { font-weight: 600; margin-bottom: 2px; }
+    .alert-sub { font-size: 13px; opacity: 0.85; }
+    .alert-success { background: var(--green-bg); color: var(--green); }
+    .alert-warning { background: var(--amber-bg); color: var(--amber); }
+    .alert-error   { background: var(--error-bg); color: var(--error); }
+    .alert-info    { background: var(--info-bg); color: var(--info); }
+
+    /* ── APP MOCKUP ─────────────────────────────── */
+    .mockup-frame {
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    .app-header {
+      background: var(--header);
+      padding: 0 40px;
+      height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .app-logo {
+      font-size: 17px; font-weight: 700;
+      color: var(--bg);
+      letter-spacing: -0.01em;
+    }
+    .app-nav { display: flex; }
+    .app-nav a {
+      color: rgba(247,246,243,0.5); text-decoration: none;
+      font-size: 13px; font-weight: 500;
+      padding: 0 14px; height: 56px;
+      display: flex; align-items: center;
+    }
+    .app-nav a.active { color: var(--bg); }
+    .app-add {
+      background: var(--bg); color: var(--text);
+      border: none; border-radius: 4px;
+      padding: 7px 16px; font-size: 13px; font-weight: 700;
+      cursor: pointer; font-family: 'Barlow', sans-serif;
+    }
+    .app-tabs {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border-strong);
+      padding: 0 40px;
+      display: flex; align-items: flex-end;
+    }
+    .app-tab {
+      padding: 11px 16px 9px;
+      font-size: 14px; font-weight: 600;
+      color: var(--text-muted);
+      border-bottom: 3px solid transparent;
+      margin-bottom: -1px;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: 'Barlow', sans-serif;
+    }
+    .app-tab.active { color: var(--text); border-bottom-color: var(--amber); }
+    .app-tab .count {
+      font-size: 11px; font-weight: 700;
+      background: var(--border); color: var(--text-muted);
+      padding: 1px 6px; border-radius: 10px;
+    }
+    .app-tab.active .count { background: var(--amber); color: #FFF; }
+    .app-body { padding: 28px 40px 40px; }
+    .app-toolbar {
+      display: flex; gap: 10px; align-items: center;
+      margin-bottom: 20px;
+    }
+    .app-search {
+      flex: 1; max-width: 360px;
+      padding: 9px 14px;
+      border: 1px solid var(--border-strong);
+      border-radius: 4px;
+      font-size: 14px; font-family: 'Barlow', sans-serif;
+      background: #FFFFFF; color: var(--text);
+      outline: none;
+    }
+    .app-search::placeholder { color: var(--text-muted); }
+    .app-filter {
+      padding: 9px 13px;
+      border: 1px solid var(--border-strong);
+      border-radius: 4px; font-size: 13px; font-weight: 600;
+      background: #FFFFFF; color: var(--text-muted);
+      cursor: pointer; font-family: 'Barlow', sans-serif;
+    }
+    .app-meta {
+      margin-left: auto;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px; font-weight: 600;
+      color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    thead tr { border-top: 1px solid var(--border-strong); border-bottom: 2px solid var(--text); }
+    th {
+      text-align: left; padding: 9px 14px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text-muted);
+      white-space: nowrap; cursor: pointer;
+    }
+    th:hover { color: var(--text); }
+    td {
+      padding: 13px 14px; font-size: 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    tr:last-child td { border-bottom: 2px solid var(--border-strong); }
+    tr:hover td { background: rgba(26,26,26,0.025); }
+    .td-type {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px; font-weight: 600; letter-spacing: 0.01em;
+    }
+    .td-provider { color: var(--text-muted); }
+    .td-cost {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px; font-weight: 500;
+    }
+    .td-cost-warn { display: flex; align-items: center; gap: 7px; }
+    .td-cost-warn .td-cost {
+      color: var(--amber);
+      border-bottom: 2px solid var(--amber);
+      padding-bottom: 1px;
+    }
+    .warn-circle {
+      width: 17px; height: 17px;
+      border-radius: 50%; border: 1.5px solid var(--amber);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 700; color: var(--amber);
+    }
+    .td-date {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px; color: var(--text-muted);
+    }
+    .td-summary { font-size: 13px; color: var(--text-muted); }
+    .td-warn-summary { font-size: 13px; color: var(--amber); }
+
+    /* ── UPLOAD MODAL MOCKUP ─────────────────────── */
+    .modal-demo {
+      background: var(--surface);
+      border: 1.5px solid var(--border-strong);
+      border-radius: 8px;
+      max-width: 480px;
+      padding: 28px 32px 32px;
+    }
+    .modal-title {
+      font-size: 18px; font-weight: 700;
+      letter-spacing: -0.01em; margin-bottom: 4px;
+    }
+    .modal-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+    .upload-zone {
+      border: 2px dashed var(--border-strong);
+      border-radius: 6px;
+      padding: 32px 24px;
+      text-align: center;
+      margin-bottom: 20px;
+      background: var(--bg);
+    }
+    .upload-icon { font-size: 28px; margin-bottom: 10px; opacity: 0.4; }
+    .upload-text { font-size: 14px; color: var(--text-muted); }
+    .upload-text strong { color: var(--text); }
+    .upload-types {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; color: var(--text-muted); margin-top: 6px;
+    }
+    .field-group { margin-bottom: 16px; }
+    .field-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: 6px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .field-warn { color: var(--amber); }
+    .field-input {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1.5px solid var(--border-strong);
+      border-radius: 4px;
+      font-size: 14px; font-family: 'Barlow', sans-serif;
+      background: var(--surface); color: var(--text);
+    }
+    .field-input.warn { border-color: var(--amber); }
+    .field-hint { font-size: 12px; color: var(--amber); margin-top: 4px; }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+
+    /* ── SPACING REFERENCE ───────────────────────── */
+    .spacing-row { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; }
+    .spacing-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .spacing-block { background: var(--amber); border-radius: 2px; width: 20px; }
+    .spacing-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; color: var(--text-muted); text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Preview header -->
+  <header class="preview-header">
+    <div class="preview-header-title">Design System — <span>Paperwork Second Brain</span></div>
+    <button class="theme-toggle" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">
+      Toggle Dark Mode
+    </button>
+  </header>
+
+  <div class="page">
+
+    <!-- TYPOGRAPHY -->
+    <section class="section">
+      <div class="section-label">Typografie</div>
+      <div class="type-specimens">
+        <div class="type-row">
+          <div class="type-meta"><strong>heading-xl</strong><br>Barlow 700<br>28px / −0.03em<br>Seitenüberschriften</div>
+          <div class="specimen-xl">Meine Dokumente</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>heading-lg</strong><br>Barlow 700<br>22px / −0.02em<br>Abschnittsüberschriften</div>
+          <div class="specimen-lg">Versicherungen — 3 Dokumente</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>table-header</strong><br>Barlow Condensed 700<br>11px / 0.1em Caps<br>Tabellenspalten</div>
+          <div class="specimen-table-header">Dokumenttyp &nbsp;·&nbsp; Anbieter &nbsp;·&nbsp; €/Monat &nbsp;·&nbsp; ab Datum &nbsp;·&nbsp; Status</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>body</strong><br>Barlow 400<br>14px / 1.6<br>Tabellenzellen, Text</div>
+          <div class="specimen-body">Haftpflichtversicherung — Privathaftpflicht inkl. Schlüsselverlust. Allianz Hausrat, abgeschlossen am 15.01.2021, derzeit aktiv.</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>body-sm</strong><br>Barlow 400<br>13px / gedimmt<br>Zusammenfassungen</div>
+          <div class="specimen-muted">Vollkasko Golf VII, inkl. Schutzbrief · Beitrag wird jährlich per SEPA eingezogen</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>mono</strong><br>IBM Plex Mono 500<br>14px<br>Kosten, Daten, Codes</div>
+          <div class="specimen-mono">8,40 &nbsp; 12,90 &nbsp; 28,50 &nbsp; 0,00 &nbsp; 01.03.2019 &nbsp; 15.01.2021</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>mono-sm</strong><br>IBM Plex Mono 400<br>12px / gedimmt<br>Sekundär-Metadaten</div>
+          <div class="specimen-mono-sm">DE89 3704 0044 0532 0130 00 &nbsp;·&nbsp; Vertragsnr. HUK-2019-4471 &nbsp;·&nbsp; IBAN-Endung 3000</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>label</strong><br>Barlow Condensed 700<br>11px Caps<br>Chips, Badges</div>
+          <span class="chip chip-green">Aktiv</span>&nbsp;
+          <span class="chip chip-amber">Prüfen</span>&nbsp;
+          <span class="chip chip-muted">Gekündigt</span>&nbsp;
+          <span class="chip chip-error">Abgelaufen</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLORS -->
+    <section class="section">
+      <div class="section-label">Farbpalette</div>
+      <div class="palette-grid">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#F7F6F3;border-bottom:1px solid #E5E1D8;"></div>
+          <div class="swatch-info"><div class="swatch-name">Background</div><div class="swatch-hex">#F7F6F3</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FAF9F6;border-bottom:1px solid #E5E1D8;"></div>
+          <div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#FAF9F6</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#1A1A1A;"></div>
+          <div class="swatch-info"><div class="swatch-name">Header / Text</div><div class="swatch-hex">#1A1A1A</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#6B6560;"></div>
+          <div class="swatch-info"><div class="swatch-name">Text Muted</div><div class="swatch-hex">#6B6560</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#E5E1D8;"></div>
+          <div class="swatch-info"><div class="swatch-name">Border</div><div class="swatch-hex">#E5E1D8</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#CCC8BF;"></div>
+          <div class="swatch-info"><div class="swatch-name">Border Strong</div><div class="swatch-hex">#CCC8BF</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#D97706;"></div>
+          <div class="swatch-info"><div class="swatch-name">Amber (Warnung)</div><div class="swatch-hex">#D97706</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FFFBEB;border-bottom:1px solid #E5E1D8;"></div>
+          <div class="swatch-info"><div class="swatch-name">Amber BG</div><div class="swatch-hex">#FFFBEB</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#15803D;"></div>
+          <div class="swatch-info"><div class="swatch-name">Grün (Aktiv)</div><div class="swatch-hex">#15803D</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#DCFCE7;border-bottom:1px solid #E5E1D8;"></div>
+          <div class="swatch-info"><div class="swatch-name">Grün BG</div><div class="swatch-hex">#DCFCE7</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#DC2626;"></div>
+          <div class="swatch-info"><div class="swatch-name">Fehler</div><div class="swatch-hex">#DC2626</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#1D4ED8;"></div>
+          <div class="swatch-info"><div class="swatch-name">Info</div><div class="swatch-hex">#1D4ED8</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENTS -->
+    <section class="section">
+      <div class="section-label">Komponenten</div>
+
+      <div style="margin-bottom:20px">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;">Buttons</div>
+        <div class="component-grid">
+          <button class="btn btn-primary">+ Dokument hochladen</button>
+          <button class="btn btn-secondary">Exportieren</button>
+          <button class="btn btn-ghost">Abbrechen</button>
+          <button class="btn btn-danger">Konto löschen</button>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;">Status-Chips</div>
+        <div class="component-grid">
+          <span class="chip chip-green">Aktiv</span>
+          <span class="chip chip-amber">Prüfen</span>
+          <span class="chip chip-muted">Gekündigt</span>
+          <span class="chip chip-error">Abgelaufen</span>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;">Eingabefelder</div>
+        <div class="component-grid" style="flex-direction:column;align-items:flex-start;">
+          <input class="input-demo" type="text" placeholder="Suchen nach Anbieter, Typ, Schlagwort …">
+          <input class="input-demo error" type="text" value="123" placeholder="">
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;">Hinweisboxen</div>
+        <div class="alert alert-success"><span class="alert-icon">✓</span><div class="alert-text"><div class="alert-title">Dokument gespeichert</div><div class="alert-sub">KFZ-Versicherung ADAC wurde erfolgreich extrahiert und hinzugefügt.</div></div></div>
+        <div class="alert alert-warning"><span class="alert-icon">⚠</span><div class="alert-text"><div class="alert-title">Betrag unsicher</div><div class="alert-sub">Die Extraktion ist bei diesem Feld unsicher (68 %). Bitte bestätigen.</div></div></div>
+        <div class="alert alert-error"><span class="alert-icon">✕</span><div class="alert-text"><div class="alert-title">Extraktion fehlgeschlagen</div><div class="alert-sub">Die PDF konnte nicht verarbeitet werden. Datei beschädigt oder passwortgeschützt.</div></div></div>
+        <div class="alert alert-info"><span class="alert-icon">ℹ</span><div class="alert-text"><div class="alert-title">5 Dokumente in der Warteschlange</div><div class="alert-sub">Stapelverarbeitung läuft. Geschätzte Zeit: 1 Min. 40 Sek.</div></div></div>
+      </div>
+    </section>
+
+    <!-- APP MOCKUP — Document List -->
+    <section class="section">
+      <div class="section-label">App — Dokumentenliste</div>
+      <div class="mockup-frame">
+        <div class="app-header">
+          <div class="app-logo">Mein Archiv</div>
+          <div class="app-nav">
+            <a href="#" class="active">Dokumente</a>
+            <a href="#">Kalender</a>
+            <a href="#">Einstellungen</a>
+          </div>
+          <button class="app-add">+ Dokument</button>
+        </div>
+        <nav class="app-tabs">
+          <a class="app-tab active" href="#">Alle <span class="count">5</span></a>
+          <a class="app-tab" href="#">Versicherungen <span class="count">2</span></a>
+          <a class="app-tab" href="#">Verträge <span class="count">1</span></a>
+          <a class="app-tab" href="#">Behörde <span class="count">1</span></a>
+          <a class="app-tab" href="#">Bank <span class="count">1</span></a>
+        </nav>
+        <div class="app-body">
+          <div class="app-toolbar">
+            <input class="app-search" type="text" placeholder="Suchen …">
+            <button class="app-filter">Sortieren ▾</button>
+            <button class="app-filter">Status ▾</button>
+            <span class="app-meta">5 Dokumente · 49,90 €/Mo</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th style="width:26%">Dokumenttyp ↕</th>
+                <th style="width:20%">Anbieter ↕</th>
+                <th style="width:11%">€&thinsp;/&thinsp;Mo ↕</th>
+                <th style="width:13%">ab Datum ↕</th>
+                <th style="width:9%">Status</th>
+                <th>Zusammenfassung</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="td-type">Haftpflichtversicherung</span></td>
+                <td><span class="td-provider">HUK-COBURG</span></td>
+                <td><span class="td-cost">8,40</span></td>
+                <td><span class="td-date">01.03.2019</span></td>
+                <td><span class="chip chip-green">Aktiv</span></td>
+                <td><span class="td-summary">Privathaftpflicht inkl. Schlüsselverlust</span></td>
+              </tr>
+              <tr style="background:var(--amber-bg)">
+                <td><span class="td-type">Hausratversicherung</span></td>
+                <td><span class="td-provider">Allianz</span></td>
+                <td>
+                  <div class="td-cost-warn">
+                    <span class="td-cost">12,90</span>
+                    <span class="warn-circle">!</span>
+                  </div>
+                </td>
+                <td><span class="td-date">15.01.2021</span></td>
+                <td><span class="chip chip-green">Aktiv</span></td>
+                <td><span class="td-warn-summary">Betrag unsicher — bitte bestätigen</span></td>
+              </tr>
+              <tr>
+                <td><span class="td-type">Girokonto</span></td>
+                <td><span class="td-provider">Deutsche Bank</span></td>
+                <td><span class="td-cost">0,00</span></td>
+                <td><span class="td-date">01.07.2015</span></td>
+                <td><span class="chip chip-green">Aktiv</span></td>
+                <td><span class="td-summary">Kostenloses Girokonto mit Dispositionskredit</span></td>
+              </tr>
+              <tr>
+                <td><span class="td-type">KFZ-Versicherung</span></td>
+                <td><span class="td-provider">ADAC</span></td>
+                <td><span class="td-cost">28,50</span></td>
+                <td><span class="td-date">01.11.2023</span></td>
+                <td><span class="chip chip-green">Aktiv</span></td>
+                <td><span class="td-summary">Vollkasko Golf VII, inkl. Schutzbrief</span></td>
+              </tr>
+              <tr>
+                <td><span class="td-type">Rentenversicherung</span></td>
+                <td><span class="td-provider">Deutsche Rentenversicherung</span></td>
+                <td><span class="td-cost">0,00</span></td>
+                <td><span class="td-date">01.01.2000</span></td>
+                <td><span class="chip chip-green">Aktiv</span></td>
+                <td><span class="td-summary">Gesetzliche Rentenversicherung Bund</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- UPLOAD MODAL -->
+    <section class="section">
+      <div class="section-label">App — Upload &amp; Korrektur-UI</div>
+      <div style="display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;">
+        <div class="modal-demo">
+          <div class="modal-title">Dokument hochladen</div>
+          <div class="modal-sub">PDF, JPG oder PNG · Max. 20 MB pro Datei</div>
+          <div class="upload-zone">
+            <div class="upload-icon">📄</div>
+            <div class="upload-text"><strong>Dateien hier ablegen</strong> oder klicken zum Auswählen</div>
+            <div class="upload-types">PDF · JPG · PNG · max. 20 MB</div>
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-ghost">Abbrechen</button>
+            <button class="btn btn-primary">Hochladen &amp; Extrahieren</button>
+          </div>
+        </div>
+        <div class="modal-demo">
+          <div class="modal-title">Extraktion bestätigen</div>
+          <div class="modal-sub">Bitte die markierten Felder prüfen — Claude ist sich unsicher.</div>
+          <div class="field-group">
+            <div class="field-label">Dokumenttyp</div>
+            <input class="field-input" value="Hausratversicherung" readonly>
+          </div>
+          <div class="field-group">
+            <div class="field-label">Anbieter</div>
+            <input class="field-input" value="Allianz" readonly>
+          </div>
+          <div class="field-group">
+            <div class="field-label field-warn">⚠ Monatsbeitrag <span style="font-weight:400;color:var(--amber)">(68% sicher)</span></div>
+            <input class="field-input warn" value="12,90" type="text">
+            <div class="field-hint">Bitte prüfen und bestätigen</div>
+          </div>
+          <div class="field-group">
+            <div class="field-label">ab Datum</div>
+            <input class="field-input" value="15.01.2021" readonly>
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-ghost">Korrigieren</button>
+            <button class="btn btn-primary">Alles bestätigen</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SPACING -->
+    <section class="section">
+      <div class="section-label">Abstände — 4px Raster</div>
+      <div class="spacing-row">
+        <div class="spacing-item"><div class="spacing-block" style="height:4px;"></div><div class="spacing-label">4px<br>xs</div></div>
+        <div class="spacing-item"><div class="spacing-block" style="height:8px;"></div><div class="spacing-label">8px<br>sm</div></div>
+        <div class="spacing-item"><div class="spacing-block" style="height:12px;"></div><div class="spacing-label">12px</div></div>
+        <div class="spacing-item"><div class="spacing-block" style="height:16px;"></div><div class="spacing-label">16px<br>md</div></div>
+        <div class="spacing-item"><div class="spacing-block" style="height:20px;"></div><div class="spacing-label">20px</div></div>
+        <div class="spacing-item"><div class="spacing-block" style="height:24px;"></div><div class="spacing-label">24px<br>lg</div></div>
+        <div class="spacing-item"><div class="spacing-block" style="height:32px;"></div><div class="spacing-label">32px<br>xl</div></div>
+        <div class="spacing-item"><div class="spacing-block" style="height:40px;"></div><div class="spacing-label">40px<br>2xl</div></div>
+        <div class="spacing-item"><div class="spacing-block" style="height:48px;"></div><div class="spacing-label">48px<br>3xl</div></div>
+        <div class="spacing-item"><div class="spacing-block" style="height:64px;"></div><div class="spacing-label">64px<br>4xl</div></div>
+      </div>
+    </section>
+
+  </div>
+
+</body>
+</html>

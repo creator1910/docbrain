@@ -1,0 +1,109 @@
+/* ─── Design Tokens ─────────────────────────────────────── */
+:root {
+  /* Surfaces */
+  --bg:            #F7F6F3;
+  --surface:       #FAF9F6;
+  --header:        #1A1A1A;
+
+  /* Text */
+  --text:          #1A1A1A;
+  --text-muted:    #6B6560;
+
+  /* Borders */
+  --border:        #E5E1D8;
+  --border-strong: #CCC8BF;
+
+  /* Amber — warnings + active state only */
+  --amber:         #D97706;
+  --amber-bg:      #FFFBEB;
+
+  /* Green — aktiv chip only */
+  --green:         #15803D;
+  --green-bg:      #DCFCE7;
+
+  /* Error — destructive actions + validation */
+  --error:         #DC2626;
+  --error-bg:      #FEF2F2;
+
+  /* Typography (populated by next/font) */
+  --font-ui:       var(--font-barlow), 'Barlow', sans-serif;
+  --font-condensed: var(--font-barlow-condensed), 'Barlow Condensed', sans-serif;
+  --font-mono:     var(--font-ibm-plex-mono), 'IBM Plex Mono', monospace;
+
+  /* Spacing (4px base) */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-8:  48px;
+  --space-10: 64px;
+
+  /* Border radius */
+  --radius-chip:   3px;
+  --radius-input:  4px;
+  --radius-modal:  6px;
+}
+
+[data-theme="dark"] {
+  --bg:            #1C1917;
+  --surface:       #292524;
+  --header:        #0C0A09;
+  --text:          #F7F6F3;
+  --text-muted:    #A8A29E;
+  --border:        #3C3836;
+  --border-strong: #57534E;
+  --amber:         #F59E0B;
+  --amber-bg:      #1C1200;
+  --green:         #22C55E;
+  --green-bg:      #052E16;
+  --error:         #F87171;
+  --error-bg:      #1C0404;
+}
+
+/* ─── Reset ──────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-ui);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* ─── Base element defaults ──────────────────────────────── */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-ui);
+  border: none;
+  background: none;
+}
+
+input, textarea, select {
+  font-family: var(--font-ui);
+  font-size: inherit;
+  color: inherit;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}

@@ -1,0 +1,55 @@
+.bar {
+  background: var(--header);
+  padding: 0 48px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.logo {
+  font-family: var(--font-ui);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--bg);
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+}
+
+.navLink {
+  color: rgba(247, 246, 243, 0.5);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: 24px;
+  transition: color 150ms ease;
+}
+.navLink:hover { color: rgba(247, 246, 243, 0.8); }
+.navLink[data-active='true'] { color: var(--bg); }
+
+.btnSignOut {
+  background: transparent;
+  color: rgba(247, 246, 243, 0.45);
+  border: 1px solid rgba(247, 246, 243, 0.2);
+  border-radius: 4px;
+  padding: 6px 14px;
+  font: 500 13px var(--font-ui);
+  cursor: pointer;
+  transition: color 80ms ease, border-color 80ms ease;
+}
+.btnSignOut:hover {
+  color: var(--bg);
+  border-color: rgba(247, 246, 243, 0.5);
+}
